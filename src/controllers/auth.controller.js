@@ -116,7 +116,7 @@ const login = async (req, res, next) => {
           promises.push(limiterConsecutiveFailsByUsernameAndIP.delete(req.usernameIPkey));
         }
         const userData = {
-          ...user.data,
+          ...user._doc,
           password: undefined
         };
         const token = jwt.sign(userData, process.env.SECRET);
