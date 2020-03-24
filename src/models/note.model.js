@@ -21,6 +21,10 @@ const noteSchema = new mongoose.Schema({
   list: {
     type: ListSchema,
     required: true
+  },
+  status: {
+    type: String,
+    default: "New"
   }
 }, { timestamps: { createdAt: 'createdAt' } });
 

@@ -158,7 +158,7 @@ const create = async (req, res) => {
 const update = async (req, res) => {
   try {
     const { id: _id } = req.params;
-    const { title, body, listId } = req.body;
+    const { title, body, listId, status } = req.body;
     const { _id: userId } = req.user;
     // check if listId is valid
     if (!ObjectId.isValid(listId)) {
@@ -179,7 +179,7 @@ const update = async (req, res) => {
     // options to run validators and return updated object
     const opts = { runValidators: true, new: true };
     // Note.findByIdAndUpdate should return an note, if id and/or fields are invalid it'll throw an exception 
-    const note = await Note.findOneAndUpdate({ _id, userId }, { title, body, list }, opts).exec();
+    const note = await Note.findOneAndUpdate({ _id, userId }, { title, body, list, status }, opts).exec();
     // if an note was found
     if (note) {
       // reply with note and 200 code
