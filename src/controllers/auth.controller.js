@@ -1,8 +1,6 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/user.model");
 const jwt = require('jsonwebtoken');
-const jwtBlacklist = require('jwt-blacklist')(jwt);
-const ExtractJwt = require('passport-jwt').ExtractJwt;
 const { limiterConsecutiveFailsByUsernameAndIP, limiterSlowBruteByIP } = require('../middlewares/rate-limiter');
 
 const ERROR_MESSAGE_AUTH = 'Email or password incorrect.';
@@ -17,7 +15,7 @@ const ERROR_MESSAGE_TOO_MANY = "Too many failed attempts, try again later...";
  * @param {Response} res 
  */
 const getCurrent = async (req, res) => {
-  console.log(req.user);
+  // console.log(req.user);
   res.status(200).json({
     message: "Ok",
     status: 200,
@@ -88,10 +86,8 @@ const register = async (req, res) => {
  * @param {Response} res 
  */
 const logout = (req, res) => {
-  const token = ExtractJwt.fromAuthHeaderAsBearerToken();
-  jwtBlacklist.blacklist(token);
   // return response
-  res.status(200).json({
+  res.status( 200).json({
     message: "Ok",
     status: 200
   });
@@ -122,10 +118,7 @@ const login = async (req, res, next) => {
           ...user._doc,
           password: undefined
         };
-        const token = jwt.sign(userData, process.env.SECRET);
-        console.log(req.body);
-        console.log(user);
-        console.log(userData);
+        const token = jwt.sign(userData, process.env.SECRET, { expiresIn: "0.5hrs"});
         res.status(200).json({
           message: "ok",
           status: 200,
@@ -134,7 +127,6 @@ const login = async (req, res, next) => {
             user: userData
           }
         });
-
       } else {
         // password is incorrect
         promises.push(limiterConsecutiveFailsByUsernameAndIP.consume(req.usernameIPkey));
