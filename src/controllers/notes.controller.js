@@ -81,7 +81,7 @@ const getOne = async (req, res) => {
       res.status(404).json({
         message: ERROR_MESSAGE_NOT_FOUND,
         status: 404,
-        
+
       });
     }
 
@@ -160,26 +160,30 @@ const update = async (req, res) => {
     const { id: _id } = req.params;
     const { title, body, listId, status } = req.body;
     const { _id: userId } = req.user;
-    // check if listId is valid
-    if (!ObjectId.isValid(listId)) {
-      return res.status(400).json({
-        message: ERROR_MESSAGE_NOT_FOUND_LIST,
-        status: 400
-      });
-    }
-    // get list to embed document in note 
-    const list = await List.findOne({ _id: listId, userId }).select("id name").exec();
-    // if list is not valid, return error and 400 code
-    if (!list) {
-      return res.status(400).json({
-        message: ERROR_MESSAGE_NOT_FOUND_LIST,
-        status: 400
-      });
+    const { onlyStatus } = req.params;
+    // if only updating status
+    if (!onlyStatus && !!listId) {
+      // check if listId is valid
+      if (!ObjectId.isValid(listId)) {
+        return res.status(400).json({
+          message: ERROR_MESSAGE_NOT_FOUND_LIST,
+          status: 400
+        });
+      }
+      // get list to embed document in note 
+      const list = await List.findOne({ _id: listId, userId }).select("id name").exec();
+      // if list is not valid, return error and 400 code
+      if (!list) {
+        return res.status(400).json({
+          message: ERROR_MESSAGE_NOT_FOUND_LIST,
+          status: 400
+        });
+      }
     }
     // options to run validators and return updated object
-    const opts = { runValidators: true, new: true };
+    const opts = { runValidators: !onlyStatus, new: true };
     // Note.findByIdAndUpdate should return an note, if id and/or fields are invalid it'll throw an exception 
-    const note = await Note.findOneAndUpdate({ _id, userId }, { title, body, list, status }, opts).exec();
+    const note = await Note.findOneAndUpdate({ _id, userId }, req.body, opts).exec();
     // if an note was found
     if (note) {
       // reply with note and 200 code
@@ -193,7 +197,7 @@ const update = async (req, res) => {
       res.status(404).json({
         message: ERROR_MESSAGE_NOT_FOUND,
         status: 404,
-        
+
       });
     }
   } catch (e) {
@@ -240,7 +244,7 @@ const remove = async (req, res) => {
       res.status(404).json({
         message: "Note not found",
         status: 404,
-        
+
       });
     }
 
