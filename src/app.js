@@ -22,7 +22,7 @@ app.use(logger('dev'));
 app.use(express.json());
 // add cors
 app.use(cors({
-  origin: ["http://localhost:4200"],
+  origin: ["http://localhost:4200","https://tasks-keeper.firebaseapp.com"],
   credentials: true
 }))
 // add ddos 
