@@ -20,20 +20,18 @@ app.use(logger('dev'));
 // add json support
 app.use(express.json());
 // adding cors
-app.use(cors({
-  origin: process.env.CLIENT_HOSTNAME
-}));
-app.all('*', function (req, res, next) {
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PATCH, PUT, DELETE, OPTIONS"
-  );
-  next();
-});
+app.use(cors());
+// app.all('*', function (req, res, next) {
+//   res.setHeader(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+//   );
+//   res.setHeader(
+//     "Access-Control-Allow-Methods",
+//     "GET, POST, PATCH, PUT, DELETE, OPTIONS"
+//   );
+//   next();
+// });
 // add ddos 
 app.use(ddos.express);
 //swagger config
