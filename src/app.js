@@ -1,12 +1,11 @@
 const express = require('express');
 const path = require('path');
 const logger = require('morgan');
-const cors = require('cors');
 const swagger = require('swagger-ui-express');
 const swaggerConfig = require('./swagger.json');
 const Ddos = require('ddos');
-const ddos = new Ddos({ burst: 10, limit: 15 })
-
+const ddos = new Ddos({ burst: 10, limit: 15 });
+const cors = require('cors');
 require('dotenv').config();
 
 // init mongoose Singleton
@@ -20,11 +19,10 @@ const app = express();
 app.use(logger('dev'));
 // add json support
 app.use(express.json());
-// add cors
+// adding cors
 app.use(cors({
-  origin: ["http://localhost:4200","https://tasks-keeper.firebaseapp.com"],
-  credentials: true
-}))
+  origin: process.env.CLIENT_HOSTNAME
+}));
 // add ddos 
 app.use(ddos.express);
 //swagger config

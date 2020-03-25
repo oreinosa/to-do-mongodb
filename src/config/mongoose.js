@@ -1,12 +1,10 @@
 const mongoose = require('mongoose');
-const Config = require('./config');
-const conf = new Config();
 // server localhost
-const server = conf.DB_HOST;
+const server = process.env.DB_HOST;
 // server port
-const port = conf.DB_PORT;
+const port = process.env.DB_PORT;
 // default name
-const database = conf.DB_NAME;
+const database = process.env.DB_NAME;
 /**
  * Singleton class to init mongoose database
  */
@@ -21,7 +19,7 @@ class Database {
       let connectionString = `mongodb://${server}/${database}`;
       // connect to database with server and database name
       if (process.env.NODE_ENV === 'production') {
-        connectionString = `mongodb+srv://${conf.DB_USER}:${conf.DB_PASS}@cluster0-gssvw.gcp.mongodb.net/${database}?retryWrites=true&w=majority`;
+        connectionString = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0-gssvw.gcp.mongodb.net/${database}?retryWrites=true&w=majority`;
         console.log(connectionString);
       }
       await mongoose.connect(connectionString, { useNewUrlParser: true });
