@@ -23,6 +23,11 @@ app.use(express.json());
 app.use(cors({
   origin: ["http://localhost:4200", "https://https://tasks-keeper.firebaseapp.com"]
 }));
+// allow methods
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  next();
+})
 // add ddos 
 app.use(ddos.express);
 //swagger config
