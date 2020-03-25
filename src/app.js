@@ -20,18 +20,9 @@ app.use(logger('dev'));
 // add json support
 app.use(express.json());
 // adding cors
-app.use(cors());
-// app.all('*', function (req, res, next) {
-//   res.setHeader(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-//   );
-//   res.setHeader(
-//     "Access-Control-Allow-Methods",
-//     "GET, POST, PATCH, PUT, DELETE, OPTIONS"
-//   );
-//   next();
-// });
+app.use(cors({
+  origin: ["http://localhost:4200", "https://https://tasks-keeper.firebaseapp.com"]
+}));
 // add ddos 
 app.use(ddos.express);
 //swagger config
