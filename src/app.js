@@ -21,7 +21,7 @@ app.use(logger('dev'));
 app.use(express.json());
 // adding cors
 app.use(cors({
-  origin: ["http://localhost:4200", "https://https://tasks-keeper.firebaseapp.com"]
+  origin: ["http://localhost:4200", "https://tasks-keeper.firebaseapp.com"]
 }));
 // allow methods
 app.use((req, res, next) => {
