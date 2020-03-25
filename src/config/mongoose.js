@@ -16,11 +16,10 @@ class Database {
   async _connect() {
     // connect when init
     try {
-      let connectionString = `mongodb://${server}/${database}`;
       // connect to database with server and database name
+      let connectionString = 'mongodb://localhost:27017/to-do';
       if (process.env.NODE_ENV === 'production') {
-        connectionString = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0-gssvw.gcp.mongodb.net/${database}?retryWrites=true&w=majority`;
-        console.log(connectionString);
+        connectionString = process.env.MONGO_URI;
       }
       await mongoose.connect(connectionString, { useNewUrlParser: true });
       // confirm connection
