@@ -3,7 +3,8 @@ const mongoose = require('mongoose')
 const listSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    maxlength:50
   },
   userId: {
     type: mongoose.ObjectId,

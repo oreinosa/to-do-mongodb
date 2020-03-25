@@ -8,11 +8,13 @@ ListSchema.remove('userId');
 const noteSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true
+    required: true,
+    maxlength: 20
   },
   body: {
     type: String,
-    required: true
+    required: true,
+    maxlength:150
   },
   userId: {
     type: mongoose.ObjectId,
